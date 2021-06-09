@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banner Serving</title>
+</head>
+<body>
+Welcome
+<br>
+{% for banner in banners %}
+    <img src="{{ banner }}">
+{% endfor %}
+</body>
+</html>

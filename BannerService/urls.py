@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
+from main.views import show_banners
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+                  path('admin/', admin.site.urls),
+                  path('campaigns/<int:campaign_id>/', show_banners)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
