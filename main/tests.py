@@ -141,3 +141,27 @@ class DataInsertionTest(TestCase):
         load('test')
         self.assertEqual(Click.objects.count(), 2)
         self.remove_files(os.path.join(BASE_DIR, 'test'))
+
+
+class VisitHistoryTest(TestCase):
+    def setUp(self):
+        self.quarter = 1 + (datetime.datetime.now().minute // 15)
+        for i in range(200):
+            Click(click_id=i,
+                  banner_id=i % 20,
+                  campaign_id=1,
+                  quarter=self.quarter).save()
+
+        for i in range(200):
+            Conversion(conversion_id=i,
+                       click_id=i,
+                       revenue=i,
+                       quarter=self.quarter).save()
+
+    def test_consecutive_visits(self):
+        first_response = self.client.get(reverse('serve_banners', args=[1]))
+        second_response = self.client.get(reverse('serve_banners', args=[1]))
+        self.assertEqual(first_response.status_code, 200)
+        self.assertEqual(second_response.status_code, 200)
+        self.assertEqual(set(first_response.context['banners'])
+                         .intersection(set(second_response.context['banners'])), set())
