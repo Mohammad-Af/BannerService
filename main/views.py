@@ -3,6 +3,7 @@ from django.shortcuts import render
 from BannerService.settings import MEDIA_URL
 import os
 import datetime
+import random
 
 from main.query_handler import calculate_x, get_top_banners_by_conversion, get_top_banners_by_click, get_random_banner
 
@@ -38,9 +39,10 @@ def get_banners(campaign_id):
         return top_by_clicks
 
 
-def show_banners(request, campaign_id):
+def serve_banners(request, campaign_id):
     if request.method == 'GET':
         banners = get_banners(campaign_id)
+        random.shuffle(banners)
         banners_url = [get_banner_image_name(banner)
                        for banner in banners]
         return render(request, 'campaign.html',

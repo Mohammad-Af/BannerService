@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from main.views import show_banners
+from main.views import serve_banners
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('campaigns/<int:campaign_id>/', show_banners)
+                  path('campaigns/<int:campaign_id>/', serve_banners, name='serve_banners')
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
