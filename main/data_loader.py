@@ -1,7 +1,7 @@
 import csv
 import os
 import django
-import sys
+import logging
 
 from django.db import IntegrityError, transaction
 
@@ -9,6 +9,7 @@ from BannerService.settings import BASE_DIR
 
 
 def load(csv_dir='csv'):
+    logger = logging.getLogger("data_loader")
     # to use models we should set this environment first
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BannerService.settings")
     django.setup()
@@ -30,10 +31,8 @@ def load(csv_dir='csv'):
                         with transaction.atomic():
                             model.objects.create(quarter=quarter, **record)
                     except IntegrityError as error:
-                        # log record is already in database
-                        pass
+                        logger.warning(f"Duplicate record found: quarter={quarter}, {record}")
 
 
 if __name__ == '__main__':
-    os.getcwd()
     load()
