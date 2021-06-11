@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  banner_server:
+    build: .
+    depends_on:
+      - redis
+    restart: always
+    container_name: webserver
+    volumes:
+      - .:/code
+    environment:
+      - PYTHONPATH=./
+  redis:
+    image: redis:6.2.4
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - banner_server
+    volumes:
+      - ./images:/var/www/media
