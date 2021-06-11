@@ -48,3 +48,9 @@ def serve_banners(request, campaign_id):
                    for banner in banners]
     return render(request, 'campaign.html',
                   context={"banners": banners_url})
+
+
+def index(request):
+    # provided for AB stress test
+    # do not redirect because AB stress test does not follow redirects
+    return serve_banners(request, random.randint(1, 50))
