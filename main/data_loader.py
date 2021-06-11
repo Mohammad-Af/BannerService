@@ -3,13 +3,13 @@ import os
 import django
 import sys
 
-# to use models we should set this environment first
 from django.db import IntegrityError, transaction
 
 from BannerService.settings import BASE_DIR
 
 
 def load(csv_dir='csv'):
+    # to use models we should set this environment first
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BannerService.settings")
     django.setup()
 
