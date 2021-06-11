@@ -34,5 +34,6 @@ def load(csv_dir='csv'):
                         pass
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
+    os.getcwd()
     load()
