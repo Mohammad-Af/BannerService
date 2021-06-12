@@ -14,4 +14,4 @@ ADD . /code/
 EXPOSE 8000
 RUN chmod +x ./start.sh
 RUN export PYTHONPATH=./
-CMD ./start.sh
+CMD /bin/sh start.sh
